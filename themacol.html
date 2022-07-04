@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Bangers&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Stylish&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Sriracha&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nanum+Pen+Script&display=swap" rel="stylesheet">
+    <link href="themacolory.css" rel="stylesheet">
+
+
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <!--모바일페이지크기조절메타태그-->
+    <title>Colory Thema Searching Tool</title>
+</head>
+
+<body id="body">
+    <div>
+        <p id='date'></p>
+
+        <table>
+            <tr>
+                <td>
+                    <h2>장소</h2>
+                </td>
+                <td colspan='5' id='tdLocationContents'>
+                </td>
+
+            </tr>
+            <tr>
+                <td>
+                    <h2>평점</h2>
+                </td>
+                <td>
+                    <span>최소 </span><span id='spanRateMin' onclick=funcInputVal(this,10)>0</span><br>
+                    <input id='rangeRateMin' type="range" value=0 min=0 max=100 onchange=funcChangeVal(this,10)><br>
+                    <span>최대 </span><span id='spanRateMax' onclick=funcInputVal(this,10)>10</span><br>
+                    <input id='rangeRateMax' type="range" value=100 min=0 max=100 onchange=funcChangeVal(this,10)>
+                </td>
+                <td>
+                    <h2>난이도</h2>
+                </td>
+                <td>
+                    <span>최소 </span><span id='spanDiffMin' onclick=funcInputVal(this,1)>0</span><br>
+                    <input id='rangeDiffMin' type="range" value=0 min=0 max=10 onchange=funcChangeVal(this,1)><br>
+                    <span>최대 </span><span id='spanDiffMax' onclick=funcInputVal(this,1)>10</span><br>
+                    <input id='rangeDiffMax' type="range" value=100 min=0 max=10 onchange=funcChangeVal(this,1)>
+                </td>
+                <td>
+                    <h2>후기수</h2>
+                </td>
+                <td>
+                    <span>최소 </span><span id='spanCountMin' onclick=funcInputVal(this,1)>0</span><br>
+                    <input id='rangeCountMin' type="range" value=0 min=0 max=10 onchange=funcChangeVal(this,1)><br>
+                    <span>최대 </span><span id='spanCountMax' onclick=funcInputVal(this,1)>10</span><br>
+                    <input id='rangeCountMax' type="range" value=100 min=0 max=10 onchange=funcChangeVal(this,1)>
+                </td>
+            </tr>
+            <tr>
+                <td colspan='6' onclick="funcEval()" style="background:gray;color:white;text-align: center">
+                    <br>찾기<br><br>
+                </td>
+            </tr>
+            <tr>
+                <td colspan='6'>
+                    <table id="tabResult" class="result"></table>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="result"><br><br>
+
+    </div>
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script type="text/javascript" src="themacolory.min.js"></script>
+    <script>
+    </script>
+</body>
