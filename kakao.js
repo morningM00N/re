@@ -986,6 +986,7 @@ function analyze() {
     }
 
     drawRankingTbl('numOfTalks')
+    drawHotTime(timeParticipateMap)
 
     console.log("analyze() end")
 }
