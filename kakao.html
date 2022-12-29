@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        table {
+            border: 2px solid
+        }
+        
+        td,
+        tr {
+            text-align: center;
+            vertical-align: center;
+            border-spacing: 0px;
+        }
+        
+        tbody tr:nth-child(even) {
+            background-color: #a0a0a0;
+        }
+    </style>
+
+
+</head>
+
+<body>
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <button onclick="openTextFile()">Open</button> 시작일 <input id="inputStartDate" type="date" onchange="dateValidCheck()" value=""> 종료일 <input id="inputEndDate" type="date" onchange="dateValidCheck()" value="">
+    <button onclick="analyze()">Analyze</button>
+    <div>
+        <h1>시간당 대화 참여 인원과 대화수</h1>
+        <canvas id="chartWeekStatistics"></canvas>
+    </div>
+    <br>
+    <br>
+    <div>
+
+        <h1>가장 많은 사람이 대화에 참여한 시간</h1>
+        <table>
+            <tbody id="tblHotTime">
+                <tr>
+                    <th>
+                        시간
+                    </th>
+                    <th>
+                        참여수
+                    </th>
+                    <th>
+                        참여자
+                    </th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <br>
+    <br>
+    <div>
+        <h1>총호출 횟수</h1>
+        <canvas id="callNameChart"></canvas>
+    </div>
+    <br>
+    <br>
+    <div>
+        <h1>대화 패턴 유사도 순위</h1>
+        <p>(<a href="https://en.wikipedia.org/wiki/Cosine_similarity">cosine similarity</a> 기준)</p>
+        <canvas id="sim0"></canvas><br>
+        <canvas id="sim1"></canvas><br>
+        <canvas id="sim2"></canvas><br>
+        <canvas id="sim3"></canvas><br>
+        <canvas id="sim4"></canvas><br><br>
+    </div>
+    <div id="divForUser">
+        <select id="simUser1"></select>와&nbsp;
+        <select id="simUser2"></select>&nbsp;
+        <button onclick="drawSelectedUserSim()">비교</button>
+        <br>
+        <canvas id="simUser"></canvas>
+    </div>
+    <div id="output">
+        <h1>순위</h1>
+        <table>
+            <tbody id="tblSummary">
+                <tr>
+                    <th>순위</th>
+                    <th>이름</th>
+                    <th onclick="drawRankingTbl('numOfTalks')">대화수</th>
+                    <th onclick="drawRankingTbl('numOfSeqTalks')">대화수 (반복제거)</th>
+                    <th onclick="drawRankingTbl('aveLength')">평균 대화 길이</th>
+                    <th onclick="drawRankingTbl('totalChar')">총글자수</th>
+                    <th>사용 단어</th>
+                    <th>사용 단어 (<a href="https://en.wikipedia.org/wiki/Tf%E2%80%93idf">tfidf</a>)</th>
+                    <th>호출자</th>
+                    <th>답변자</th>
+                    <th>대화 패턴 유사도</th>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script type="text/javascript" src="kakao.js"></script>
+
+</body>
+
+</html>
