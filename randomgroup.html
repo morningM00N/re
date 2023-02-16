@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.6.3.slim.min.js" integrity="sha256-ZwqZIVdD3iXNyGHbSYdsmWP//UBokj2FHAxKuSBKDSo=" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    인원수 <input type="text" id="inputNumOfPlayers" onchange="funcOnChangeNumberOfPlayer()" value="11" oninput="this.size = this.value.length"> &nbsp;&nbsp; 조
+
+
+    <input type="text" id="inputNumOfGroups" value='3' oninput="this.size = this.value.length"> &nbsp;&nbsp; 시드
+
+    <input type="text" id="inputSeed" value='0' oninput="this.size = this.value.length"> &nbsp;&nbsp;
+    <button onclick="funcGrouping()">나누기</button>
+    <br>
+    <br>
+    <div id="divPlayerName">
+    </div>
+    <br><br>
+    <table id="tblResult"></table>
+
+    <script>
+        let numOfPlayers = 11
+        $("#inputNumOfPlayers")[0].size = $("#inputNumOfPlayers")[0].value.length
+        $("#inputNumOfGroups")[0].size = $("#inputNumOfGroups")[0].value.length
+        $("#inputSeed")[0].size = $("#inputSeed")[0].value.length
+
+        function funcOnChangeNumberOfPlayer() {
+            numOfPlayers = Number($("#inputNumOfPlayers")[0].value)
+            if ((numOfPlayers > 0) == false) {
+                alert("입력을 확인하세요")
+                $("#inputNumOfPlayers")[0].value = numOfPlayers = 11
+            }
+            console.log(numOfPlayers)
+            let divPlayerName = $("#divPlayerName")[0]
+            if (divPlayerName.childElementCount / 2 < numOfPlayers) {
+                for (let idx = divPlayerName.childElementCount / 2; idx < numOfPlayers; idx++) {
+                    let newNameInput = document.createElement('input')
+                    newNameInput.id = "inputPlayerName" + idx
+                    newNameInput.value = (idx + 1)
+                    newNameInput.size = newNameInput.value.length
+                    newNameInput.oninput = function() {
+                        this.size = this.value.length
+                    }
+                    divPlayerName.appendChild(newNameInput)
+                    let newSpan = document.createElement('span')
+                    newSpan.innerHTML = "&nbsp;&nbsp;&nbsp;"
+
+                    divPlayerName.appendChild(newSpan)
+                }
+            }
+            while (divPlayerName.childElementCount / 2 > numOfPlayers) {
+                divPlayerName.removeChild(divPlayerName.children[divPlayerName.childElementCount - 1])
+            }
+
+        }
+        funcOnChangeNumberOfPlayer()
+        let seed = 0
+
+        function rand() {
+            seed = seed * 0x5DEECE66D + 11;
+            seed = seed & 0xffffffff
+            seed = seed * 0x5DEECE66D + 11;
+            seed = seed & 0xffffffff
+            return ((seed >> 16) & 0b0111111111111111)
+        }
+
+        function funcGrouping() {
+            let numOfGroups = Number($('#inputNumOfGroups')[0].value)
+            seed = Number($('#inputSeed')[0].value)
+            if ((numOfGroups > 0) == false) {
+                $('#inputNumOfGroups')[0].value = 3
+                alert("입력을 확인해주세요.")
+                return
+            }
+            if ((seed >= 0) == false) {
+                seed = $('#inputSeed')[0].value = 0
+                alert("입력을 확인해주세요.")
+
+                return
+            }
+            if ((numOfGroups > 0) == false || (numOfPlayers > 0) == false || (seed >= 0) == false) {
+                alert("입력을 확인해주세요.")
+                return
+            }
+            console.log(numOfGroups, seed, numOfPlayers)
+            let playerAssigned = []
+            for (let idx = 0; idx < numOfPlayers; idx++) {
+                playerAssigned[idx] = false
+            }
+            let numOfEachGroup = Math.floor(numOfPlayers / numOfGroups)
+            for (let idx = 1; idx <= numOfGroups; idx++) {
+                for (let idx2 = 0; idx2 < numOfEachGroup; idx2++) {
+                    let loc = rand() % numOfPlayers
+                    while (playerAssigned[loc] != false) {
+                        loc++
+                        if (loc == numOfPlayers) {
+                            loc = 0
+                        }
+                    }
+                    playerAssigned[loc] = idx
+                }
+            }
+            let groupAssigned = []
+            for (let idx = 0; idx < numOfGroups; idx++) {
+                groupAssigned[idx] = false
+            }
+            for (let idx = 0; idx < numOfPlayers; idx++) {
+                if (playerAssigned[idx] == false) {
+                    let loc = rand() % numOfGroups
+                    while (groupAssigned[loc] != false) {
+                        loc++
+                        if (loc == numOfGroups) {
+                            loc = 0
+                        }
+                    }
+                    groupAssigned[loc] = true
+                    playerAssigned[idx] = loc + 1
+                }
+            }
+
+            console.log(playerAssigned)
+
+            let tableResult = $('#tblResult')[0]
+            tableResult.style.cellspacing = '0px'
+            while (tableResult.childElementCount > 0) {
+                tableResult.removeChild(tableResult.children[0])
+            }
+            for (let g = 0; g < numOfGroups; g++) {
+                let tr = document.createElement('tr')
+                tableResult.appendChild(tr)
+                let td = document.createElement('td')
+
+                tr.appendChild(td)
+                td.innerHTML = '' + (g + 1) + '조'
+                for (let idx = 0; idx < numOfPlayers; idx++) {
+                    if (playerAssigned[idx] == g + 1) {
+                        td = document.createElement('td')
+                        td.style.textAlign = 'center'
+                        td.innerHTML = $('#inputPlayerName' + idx)[0].value
+                        tr.appendChild(td)
+                    }
+                }
+            }
+
+        }
+        funcGrouping()
+    </script>
+</body>
+
+</html>
