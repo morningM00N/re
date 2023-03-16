@@ -87,15 +87,15 @@
                 <tr>
                     <th>순위</th>
                     <th>이름</th>
-                    <th onclick="drawRankingTbl('numOfTalks')">대화수</th>
-                    <th onclick="drawRankingTbl('numOfSeqTalks')">대화수 (반복제거)</th>
-                    <th onclick="drawRankingTbl('aveLength')">평균 대화 길이</th>
-                    <th onclick="drawRankingTbl('totalChar')">총글자수</th>
-                    <th>사용 단어</th>
-                    <th>사용 단어 (<a href="https://en.wikipedia.org/wiki/Tf%E2%80%93idf">tfidf</a>)</th>
-                    <th>호출자</th>
-                    <th>답변자</th>
-                    <th>대화 패턴 유사도</th>
+                    <th id='td_numOfTalks' onclick="drawRankingTbl('numOfTalks')">대화수</th>
+                    <th id='td_numOfSeqTalks' onclick="drawRankingTbl('numOfSeqTalks')">대화수 (반복제거)</th>
+                    <th id='td_aveLength' onclick="drawRankingTbl('aveLength')">평균 대화 길이</th>
+                    <th id='td_totalChar' onclick="drawRankingTbl('totalChar')">총글자수</th>
+                    <th onclick="drawRankingTbl(null,0)">사용 단어</th>
+                    <th onclick="drawRankingTbl(null,1)">사용 단어 (<a href="https://en.wikipedia.org/wiki/Tf%E2%80%93idf">tfidf</a>)</th>
+                    <th onclick="drawRankingTbl(null,2)">호출자</th>
+                    <th onclick="drawRankingTbl(null,3)">답변자</th>
+                    <th onclick="drawRankingTbl(null,4)">대화 패턴 유사도</th>
                 </tr>
             </tbody>
         </table>
