@@ -21,7 +21,7 @@ function dateValidCheck() {
 
     let tempStartDate = Date.parse(inputStartDate.value)
     let tempEndDate = Date.parse(inputEndDate.value)
-    if (tempEndDate - tempStartDate > 30 * 24 * 60 * 60 * 1000 || tempStartDate > tempEndDate) {
+    if (tempEndDate - tempStartDate > 32 * 24 * 60 * 60 * 1000 || tempStartDate > tempEndDate) {
         dateReady = false
         alert("날짜를 확인해 주세요. (1달 이내만 가능)")
         event.srcElement.value = ""
@@ -458,11 +458,20 @@ function getInformationForAUser(userName) {
 }
 
 
+let desc = false
+
 function sortTuple(a, b) {
-    if (a.content[sortAttribute] > b.content[sortAttribute]) {
+    if (desc == true) {
+        if (a.content[sortAttribute] > b.content[sortAttribute]) {
+            return -1
+        }
+        return 1
+    } else {
+        if (a.content[sortAttribute] > b.content[sortAttribute]) {
+            return 1
+        }
         return -1
     }
-    return 1
 }
 
 function drawHotTime(timeParticipateMap) {
@@ -752,23 +761,57 @@ function drawWeekSim(similarityForAllWeek, rank, userInfor) {
 
 }
 
+let showTd = [true, true, true, true, true]
 
-function drawRankingTbl(sortTupleName) {
-    sortAttribute = sortTupleName
+function drawRankingTbl(sortTupleName, toggle) {
+    if (sortTupleName != null) {
+        document.getElementById("td_" + sortAttribute).style.color = 'black'
+        if (sortAttribute == sortTupleName) {
+            if (desc == true) {
+                desc = false
+            } else {
+                desc = true
+            }
+        }
+
+        sortAttribute = sortTupleName
+
+        if (desc == true) {
+            document.getElementById("td_" + sortAttribute).style.color = 'red'
+        } else {
+            document.getElementById("td_" + sortAttribute).style.color = 'blue'
+        }
+        userInfor.sort(sortTuple)
+    }
+
+    if (toggle != null) {
+        if (showTd[toggle] == true) {
+            showTd[toggle] = false
+        } else {
+            showTd[toggle] = true
+        }
+    }
     let tbl = document.getElementById('tblSummary')
 
     while (tbl.childElementCount > 1) {
         tbl.removeChild(tbl.children[1])
     }
 
-    userInfor.sort(sortTuple)
+
     for (let idx = 0; idx < userInfor.length; idx++) {
         let tr = document.createElement('tr')
+        tr.onclick = function() {
+            tbl.removeChild(tr)
+        }
         tbl.appendChild(tr)
 
         {
             let td = document.createElement('td')
-            td.innerHTML = idx + 1
+            let rank = idx + 1
+            if (desc == false) {
+                rank = userInfor.length - idx
+            }
+            td.innerHTML = rank
             tr.appendChild(td)
         }
 
@@ -807,46 +850,61 @@ function drawRankingTbl(sortTupleName) {
 
         {
             let td = document.createElement('td')
-            for (let idx2 = 0; idx2 < 10 && idx2 < userInfor[idx].content.freqWords.length; idx2++) {
-                td.innerHTML += userInfor[idx].content.freqWords[idx2].word + " (" + userInfor[idx].content.freqWords[idx2].count + ")<br>"
+            if (showTd[0] == true) {
+                for (let idx2 = 0; idx2 < 10 && idx2 < userInfor[idx].content.freqWords.length; idx2++) {
+                    td.innerHTML += userInfor[idx].content.freqWords[idx2].word + " (" + userInfor[idx].content.freqWords[idx2].count + ")<br>"
+                }
             }
             tr.appendChild(td)
         }
 
         {
             let td = document.createElement('td')
-            for (let idx2 = 0; idx2 < 10 && idx2 < userInfor[idx].content.freqTfIdf.length; idx2++) {
-                td.innerHTML += userInfor[idx].content.freqTfIdf[idx2].word + " (" + Math.round(userInfor[idx].content.freqTfIdf[idx2].count) + ")<br>"
+            if (showTd[1] == true) {
+                for (let idx2 = 0; idx2 < 10 && idx2 < userInfor[idx].content.freqTfIdf.length; idx2++) {
+                    td.innerHTML += userInfor[idx].content.freqTfIdf[idx2].word + " (" + Math.round(userInfor[idx].content.freqTfIdf[idx2].count) + ")<br>"
+                }
             }
             tr.appendChild(td)
         }
 
         {
             let td = document.createElement('td')
-            for (let idx2 = 0; idx2 < 10 && idx2 < userInfor[idx].content.callingFreq.length; idx2++) {
-                td.innerHTML += userInfor[idx].content.callingFreq[idx2].name + " (" + Math.round(userInfor[idx].content.callingFreq[idx2].count) + ")<br>"
+            if (showTd[2] == true) {
+                for (let idx2 = 0; idx2 < 10 && idx2 < userInfor[idx].content.callingFreq.length; idx2++) {
+                    td.innerHTML += userInfor[idx].content.callingFreq[idx2].name + " (" + Math.round(userInfor[idx].content.callingFreq[idx2].count) + ")<br>"
+                }
             }
             tr.appendChild(td)
         }
 
         {
             let td = document.createElement('td')
-            for (let idx2 = 0; idx2 < 10 && idx2 < userInfor[idx].content.inRangeTalks.length; idx2++) {
-                td.innerHTML += userInfor[idx].content.inRangeTalks[idx2].name.substr(0, userInfor[idx].content.inRangeTalks[idx2].name.indexOf('/')) + " (" + Math.round(userInfor[idx].content.inRangeTalks[idx2].count) + ")<br>"
+            if (showTd[3] == true) {
+                for (let idx2 = 0; idx2 < 10 && idx2 < userInfor[idx].content.inRangeTalks.length; idx2++) {
+                    td.innerHTML += userInfor[idx].content.inRangeTalks[idx2].name.substr(0, userInfor[idx].content.inRangeTalks[idx2].name.indexOf('/')) + " (" + Math.round(userInfor[idx].content.inRangeTalks[idx2].count) + ")<br>"
+                }
             }
             tr.appendChild(td)
         }
-        userInfor[idx].content.mapSimilarity.sort((a, b) => {
-            if (a.sim > b.sim) { return -1 }
-            return 1
-        })
 
-        {
-            let td = document.createElement('td')
-            for (let idx2 = 0; idx2 < 10 && idx2 < userInfor[idx].content.mapSimilarity.length; idx2++) {
-                td.innerHTML += userInfor[idx].content.mapSimilarity[idx2].name.substr(0, userInfor[idx].content.mapSimilarity[idx2].name.indexOf('/')) + " (" +
-                    Math.round(1000 * userInfor[idx].content.mapSimilarity[idx2].sim) / 1000 + ")<br>"
+        if (showTd[4] == true) {
+            userInfor[idx].content.mapSimilarity.sort((a, b) => {
+                if (a.sim > b.sim) { return -1 }
+                return 1
+            })
+
+
+            {
+                let td = document.createElement('td')
+                for (let idx2 = 0; idx2 < 10 && idx2 < userInfor[idx].content.mapSimilarity.length; idx2++) {
+                    td.innerHTML += userInfor[idx].content.mapSimilarity[idx2].name.substr(0, userInfor[idx].content.mapSimilarity[idx2].name.indexOf('/')) + " (" +
+                        Math.round(1000 * userInfor[idx].content.mapSimilarity[idx2].sim) / 1000 + ")<br>"
+                }
+                tr.appendChild(td)
             }
+        } else {
+            let td = document.createElement('td')
             tr.appendChild(td)
         }
 
