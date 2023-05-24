@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+</head>
+
+<body>
+    <table>
+        <tr>
+            <td><input id="eq1word1" value="gan"></td>
+            <td>+</td>
+            <td><input id="eq1word2" value="yong"></td>
+            <td>=</td>
+            <td><input id="eq1word3" value="babo">
+            </td>
+        </tr>
+        <tr>
+            <td><input id="eq2word1"></td>
+            <td>-</td>
+            <td><input id="eq2word2"></td>
+            <td>=</td>
+            <td><input id="eq2word3">
+            </td>
+        </tr>
+        <tr>
+            <td><input id="eq3word1" value="gan"></td>
+            <td>×</td>
+            <td><input id="eq3word2" value="yong"></td>
+            <td>=</td>
+            <td><input id="eq3word3" value="agnooop">
+            </td>
+        </tr>
+        <tr>
+            <td><input id="eq4word1"></td>
+            <td>÷</td>
+            <td><input id="eq4word2"></td>
+            <td>=</td>
+            <td><input id="eq4word3">
+            </td>
+        </tr>
+    </table>
+    <button onclick="funcCalc()">CALCULATE</button>
+    <div id="result"></div>
+</body>
+<script>
+    function DP(bool) {
+        if (bool == false) {
+            alert("err")
+        }
+    }
+
+    function permutation(candidates, numOfDigits, used) {
+        let ret = []
+        if (numOfDigits == 1) {
+            for (let idx = 0; idx < candidates.length; idx++) {
+                if (used[idx] == true) {
+                    continue
+                }
+                entry = new Array()
+                entry.push(candidates[idx])
+                ret.push(entry)
+            }
+            return ret
+        }
+
+        for (let idx = 0; idx < candidates.length; idx++) {
+            if (used[idx] == true) {
+                continue
+            }
+            used[idx] = true
+            let temp = permutation(candidates, numOfDigits - 1, used)
+            for (let idx2 = 0; idx2 < temp.length; idx2++) {
+                tempr = temp[idx2]
+                tempr.push(candidates[idx])
+                ret.push(tempr)
+            }
+            used[idx] = false
+        }
+        return ret
+    }
+
+    let chSet = {}
+
+    function getNumber(str, mapInfor) {
+        let ret = 0
+        for (let idx = 0; idx < str.length; idx++) {
+            ret *= 10
+            ret += mapInfor[str[idx]]
+
+        }
+        return ret
+    }
+
+    function funcCalc() {
+        chSet = {}
+        let areaDiv = document.getElementById("result")
+        areaDiv.innerHTML = ""
+        for (let idx1 = 1; idx1 <= 4; idx1++) {
+            for (let idx2 = 1; idx2 <= 3; idx2++) {
+                let word = document.getElementById("eq" + idx1 + "word" + idx2)
+                for (let idx3 = 0; idx3 < word.value.length; idx3++) {
+                    chSet[word.value[idx3]] = true
+                }
+            }
+        }
+        let chs = Object.keys(chSet)
+        console.log(chs)
+        if (chs.length > 10) {
+            alert("Use less than 10 characters.")
+            return
+        }
+
+        let plus = false
+        let minus = false
+        let multi = false
+        let divide = false
+        if (document.getElementById("eq1word1").value.length + document.getElementById("eq1word2").value.length + document.getElementById("eq1word3").value.length > 0) {
+            if (document.getElementById("eq1word1").value.length == 0 || document.getElementById("eq1word2").value.length == 0 || document.getElementById("eq1word3").value.length == 0) {
+                alert("fill the blank.")
+                return
+            }
+            plus = true
+        }
+
+        if (document.getElementById("eq2word1").value.length + document.getElementById("eq2word2").value.length + document.getElementById("eq2word3").value.length > 0) {
+            if (document.getElementById("eq2word1").value.length == 0 || document.getElementById("eq2word2").value.length == 0 || document.getElementById("eq2word3").value.length == 0) {
+                alert("fill the blank.")
+                return
+            }
+            minus = true
+        }
+
+        if (document.getElementById("eq3word1").value.length + document.getElementById("eq3word2").value.length + document.getElementById("eq3word3").value.length > 0) {
+            if (document.getElementById("eq3word1").value.length == 0 || document.getElementById("eq3word2").value.length == 0 || document.getElementById("eq3word3").value.length == 0) {
+                alert("fill the blank.")
+                return
+            }
+            multi = true
+        }
+
+
+        if (document.getElementById("eq4word1").value.length + document.getElementById("eq4word2").value.length + document.getElementById("eq4word3").value.length > 0) {
+            if (document.getElementById("eq4word1").value.length == 0 || document.getElementById("eq4word2").value.length == 0 || document.getElementById("eq4word3").value.length == 0) {
+                alert("fill the blank.")
+                return
+            }
+            divide = true
+        }
+
+
+        let numbers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+        let used = [false, false, false, false, false, false, false, false, false, false]
+        let perm = permutation(numbers, chs.length, used)
+        for (let idx = 0; idx < perm.length; idx++) {
+            let mapInfor = {}
+            for (let idx2 = 0; idx2 < chs.length; idx2++) {
+                mapInfor[chs[idx2]] = perm[idx][idx2]
+            }
+
+            let eq1word1
+            let eq1word2
+            let eq1word3
+            let eq2word1
+            let eq2word2
+            let eq2word3
+            let eq3word1
+            let eq3word2
+            let eq3word3
+            let eq4word1
+            let eq4word2
+            let eq4word3
+            if (plus) {
+                eq1word1 = getNumber(document.getElementById("eq1word1").value, mapInfor)
+                eq1word2 = getNumber(document.getElementById("eq1word2").value, mapInfor)
+                eq1word3 = getNumber(document.getElementById("eq1word3").value, mapInfor)
+
+                if (eq1word1 + eq1word2 != eq1word3) {
+                    continue
+                }
+            }
+
+
+            if (minus) {
+                eq2word1 = getNumber(document.getElementById("eq2word1").value, mapInfor)
+                eq2word2 = getNumber(document.getElementById("eq2word2").value, mapInfor)
+                eq2word3 = getNumber(document.getElementById("eq2word3").value, mapInfor)
+
+                if (eq2word1 - eq2word2 != eq2word3) {
+                    continue
+                }
+            }
+
+
+
+            if (multi) {
+                eq3word1 = getNumber(document.getElementById("eq3word1").value, mapInfor)
+                eq3word2 = getNumber(document.getElementById("eq3word2").value, mapInfor)
+                eq3word3 = getNumber(document.getElementById("eq3word3").value, mapInfor)
+
+                if (eq3word1 * eq3word2 != eq3word3) {
+                    continue
+                }
+            }
+
+
+
+
+            if (divide) {
+                eq4word1 = getNumber(document.getElementById("eq4word1").value, mapInfor)
+                eq4word2 = getNumber(document.getElementById("eq4word2").value, mapInfor)
+                eq4word3 = getNumber(document.getElementById("eq4word3").value, mapInfor)
+
+                if (eq4word2 != 0) {
+                    if (eq4word1 / eq4word2 != eq4word3) {
+                        continue
+                    }
+                }
+            }
+
+            console.log(mapInfor)
+            let str = ""
+            for (let v in mapInfor) {
+                str += (v + ":" + mapInfor[v] + "\t")
+            }
+            let newObj = document.createElement("p")
+            newObj.innerHTML = str
+            areaDiv.appendChild(newObj)
+            console.log(str)
+            let tbl = document.createElement("table")
+            areaDiv.appendChild(tbl)
+            if (plus) {
+                let tr = document.createElement('tr')
+                tbl.appendChild(tr)
+
+                {
+                    let td = document.createElement('td')
+                    td.innerHTML = document.getElementById('eq1word1').value + "(" + eq1word1 + ")"
+                    tr.appendChild(td)
+                }
+
+                {
+                    let td = document.createElement('td')
+                    td.innerHTML = "+"
+                    tr.appendChild(td)
+                }
+
+                {
+                    let td = document.createElement('td')
+                    td.innerHTML = document.getElementById('eq1word2').value + "(" + eq1word2 + ")"
+                    tr.appendChild(td)
+                }
+
+                {
+                    let td = document.createElement('td')
+                    td.innerHTML = "="
+                    tr.appendChild(td)
+                }
+
+                {
+                    let td = document.createElement('td')
+                    td.innerHTML = document.getElementById('eq1word3').value + "(" + eq1word3 + ")"
+                    tr.appendChild(td)
+                }
+            }
+
+            if (minus) {
+                let tr = document.createElement('tr')
+                tbl.appendChild(tr)
+
+                {
+                    let td = document.createElement('td')
+                    td.innerHTML = document.getElementById('eq2word1').value + "(" + eq2word1 + ")"
+                    tr.appendChild(td)
+                }
+
+                {
+                    let td = document.createElement('td')
+                    td.innerHTML = "-"
+                    tr.appendChild(td)
+                }
+
+                {
+                    let td = document.createElement('td')
+                    td.innerHTML = document.getElementById('eq2word2').value + "(" + eq2word2 + ")"
+                    tr.appendChild(td)
+                }
+
+                {
+                    let td = document.createElement('td')
+                    td.innerHTML = "="
+                    tr.appendChild(td)
+                }
+
+                {
+                    let td = document.createElement('td')
+                    td.innerHTML = document.getElementById('eq2word3').value + "(" + eq2word3 + ")"
+                    tr.appendChild(td)
+                }
+            }
+
+
+            if (multi) {
+                let tr = document.createElement('tr')
+                tbl.appendChild(tr)
+
+                {
+                    let td = document.createElement('td')
+                    td.innerHTML = document.getElementById('eq3word1').value + "(" + eq3word1 + ")"
+                    tr.appendChild(td)
+                }
+
+                {
+                    let td = document.createElement('td')
+                    td.innerHTML = "×"
+                    tr.appendChild(td)
+                }
+
+                {
+                    let td = document.createElement('td')
+                    td.innerHTML = document.getElementById('eq3word2').value + "(" + eq3word2 + ")"
+                    tr.appendChild(td)
+                }
+
+                {
+                    let td = document.createElement('td')
+                    td.innerHTML = "="
+                    tr.appendChild(td)
+                }
+
+                {
+                    let td = document.createElement('td')
+                    td.innerHTML = document.getElementById('eq3word3').value + "(" + eq3word3 + ")"
+                    tr.appendChild(td)
+                }
+            }
+
+
+            if (divide) {
+                let tr = document.createElement('tr')
+                tbl.appendChild(tr)
+
+                {
+                    let td = document.createElement('td')
+                    td.innerHTML = document.getElementById('eq4word1').value + "(" + eq4word1 + ")"
+                    tr.appendChild(td)
+                }
+
+                {
+                    let td = document.createElement('td')
+                    td.innerHTML = "×"
+                    tr.appendChild(td)
+                }
+
+                {
+                    let td = document.createElement('td')
+                    td.innerHTML = document.getElementById('eq4word2').value + "(" + eq4word2 + ")"
+                    tr.appendChild(td)
+                }
+
+                {
+                    let td = document.createElement('td')
+                    td.innerHTML = "="
+                    tr.appendChild(td)
+                }
+
+                {
+                    let td = document.createElement('td')
+                    td.innerHTML = document.getElementById('eq4word3').value + "(" + eq4word3 + ")"
+                    tr.appendChild(td)
+                }
+            }
+
+
+
+
+        }
+    }
+    funcCalc()
+</script>
+
+</html>
