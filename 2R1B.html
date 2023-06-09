@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>두 개의 방 하나의 폭탄</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            text-align: center;
+            line-height: 1.5;
+            border-top: 1px solid #ccc;
+            border-left: 3px solid #369;
+            border-right: 3px solid red;
+            margin : 20px 10px;
+          }
+          table td {
+            padding: 10px;
+            vertical-align: center;
+            border-right: 1px solid #ccc;
+            border-bottom: 1px solid #ccc;
+          }
+          
+          img{
+            height:150px
+          }
+                
+    </style>
+</head>
+<body>
+    <table>
+        <tr>
+            <td colspan="3" style="background-color: #369;color:white">
+                <h2>대통령팀</h2>
+            </td>
+            <td colspan="3" style="background-color: red;color:white">
+                <h2>폭탄마팀</h2>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                카드
+            </td>
+            <td>
+                이름
+            </td>
+            <td>
+                능력 / 승리조건
+            </td>
+            <td>
+                카드
+            </td>
+            <td>
+                이름
+            </td>
+            <td>
+                능력 / 승리조건
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <img src="2R1B/BK.jpg" >
+            </td>
+            <td>
+                대통령
+            </td>
+            <td>
+                게임 종료 시 폭탄마와 다른 방에 존재
+            </td>
+            <td>
+                <img src="2R1B/RK.jpg" >
+            </td>
+            <td>
+                폭탄마
+            </td>
+            <td>
+                게임 종료 시 대통령과 같은 방에 존재
+            </td>
+        </tr>
+
+  
+
+        <tr>
+            <td>
+                <img src="2R1B/B9.jpg" >
+            </td>
+            <td>
+                국민 (여러명)
+            </td>
+            <td>
+                게임 종료 시 대통령과 폭탄마가 다른 방에 존재
+            </td>
+
+            <td>
+                <img src="2R1B/R3.jpg" >
+            </td>
+            <td>
+                테러단체 (여러명)
+            </td>
+            <td>
+                게임 종료 시 대통령과 폭탄마가 같은 방에 존재
+            </td>
+        </tr>
+
+
+        <tr>
+            <td>
+                <img src="2R1B/BQ.jpg" >
+            </td>
+            <td>
+                큐피드
+            </td>
+            <td>
+                게임 도중 은밀히 2명을 불러 (동시에) "너네 둘은 사랑에 빠졌다" 언급.
+                그 둘은 본인 카드와 상관없이 게임 종료 시 같은 방에 있으면 승리.
+            </td>
+            <td>
+                <img src="2R1B/RQ.jpg" >
+            </td>
+            <td>
+                에리스
+            </td>
+            <td>
+                게임 도중 은밀히 2명을 불러 (동시에) "너네 둘은 증오에 빠졌다" 언급.
+                그 둘은 본인 카드와 상관없이 게임 종료 시 다른 방에 있으면 승리.
+            </td>
+        </tr>
+
+        
+        <tr>
+            <td>
+                <img src="2R1B/BJ.jpg" >
+            </td>
+            <td>
+                대사관
+            </td>
+            <td>
+                카드를 받자마자 "난 대사관이다"라고 외침. 자유롭게 두 방을 이동 가능. 인질 대상 X. 투표 자격 X.
+            </td>
+            <td>
+                <img src="2R1B/RJ.jpg" >
+            </td>
+            <td>
+                대사관
+            </td>
+            <td>
+                카드를 받자마자 "난 대사관이다"라고 외침. 자유롭게 두 방을 이동 가능. 인질 대상 X. 투표 자격 X.
+            </td>
+        </tr>
+
+        
+        <td colspan="6" style="background-color: black;color:white">
+            <h2>중립팀</h2>
+        </td>
+        <tr>
+            <td>
+                <img src="2R1B/NK.jpg" >
+            </td>
+            <td>
+                라이벌
+            </td>
+            <td>
+                게임 종료 시 대통령과 다른 방에 존재
+            </td>
+            <td>
+                <img src="2R1B/NA.jpg" >
+            </td>
+            <td>
+                인턴
+            </td>
+            <td>
+                게임 종료 시 대통령과 같은 방에 존재
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <img src="2R1B/N7.jpg" >
+            </td>
+            <td>
+                생존자
+            </td>
+            <td>
+                게임 종료 시 폭탄마와 다른 방에 존재
+            </td>
+            <td>
+                <img src="2R1B/N4.jpg" >
+            </td>
+            <td>
+                희생자
+            </td>
+            <td>
+                게임 종료 시 폭탄마와 같은 방에 존재
+            </td>
+        </tr>
+
+         
+        <tr>
+            <td>
+                <img src="2R1B/NQ.jpg" >
+            </td>
+            <td>
+                영부인
+            </td>
+            <td>
+                게임 종료 시 대통령과 같은 방에, 영식과 다른 방에 존재
+            </td>
+            <td>
+                <img src="2R1B/NJ.jpg" >
+            </td>
+            <td>
+                영식
+            </td>
+            <td>
+                게임 종료 시 대통령과 같은 방에, 영부인과 다른 방에 존재
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <img src="2R1B/N2.jpg" >
+            </td>
+            <td>
+                도플갱어 (2명)
+            </td>
+            <td>
+                게임 종료 시 폭탄마와 다른 방에, 다른 도플갱어는 폭탄마와 같은 방에 존재
+            </td>
+            <td>
+                <img src="2R1B/N2.jpg" >
+            </td>
+            <td>
+                도플갱어 (2명)
+            </td>
+            <td>
+                게임 종료 시 폭탄마와 다른 방에, 다른 도플갱어는 폭탄마와 같은 방에 존재
+            </td>
+        </tr>
+
+        
+        <tr>
+            <td>
+                <img src="2R1B/N10.jpg" >
+            </td>
+            <td>
+                갬블러
+            </td>
+            <td>
+                게임 종료 직전 어느 팀이 승리할지 예상
+            </td>
+        </tr>
+        
+        
+
+    </table>
+</body>
+</html>
